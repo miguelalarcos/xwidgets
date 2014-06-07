@@ -1,8 +1,8 @@
 {
   "packages": {
+    "autoform": {},
     "xwidgets": {
       "path": "/home/miguel/dev/meteor/xwidgets"
-    },
-    "autoform": {}
+    }
   }
 }

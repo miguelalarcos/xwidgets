@@ -53,3 +53,8 @@ display: none;
     z-index: 2;
     background-color: #F3E2A9;
 }
+
+.xbutton{
+    background-color: #58FAF4;
+    cursor: pointer;
+}

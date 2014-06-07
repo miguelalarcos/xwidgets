@@ -1,7 +1,8 @@
+Session.set 'xquery', null
 @local_items = local_items = new Meteor.Collection null
 @local_tags = local_tags = new Meteor.Collection null
 
-Session.set 'xquery', null
+
 index = -1
 current_input = null
 
@@ -134,8 +135,4 @@ $.fn.xautocomplete = ->
 Template.xautocomplete.rendered = ->
     $('.container-autocomplete').xautocomplete()
 
-Template.form.rendered =->
-    $(window).keydown (event)->
-        if event.keyCode == 13
-            event.preventDefault()
-            return false
+

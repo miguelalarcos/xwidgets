@@ -6,6 +6,8 @@
 standard-app-packages
 autopublish
 insecure
-coffeescript
 autoform
 collection2
+coffeescript
+xwidgets
+moment

@@ -9,3 +9,9 @@ Template.form.events
     'click .editable': (e,t)->
         _id = $(e.target).attr('_id')
         Session.set 'idDoc', _id  
+
+Template.form.rendered =->
+    $(window).keydown (event)->
+        if event.keyCode == 13
+            event.preventDefault()
+            return false

@@ -3,8 +3,9 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-    api.use(['coffeescript', 'underscore', 'moment'], 'client');
+    api.use(['jquery', 'coffeescript', 'underscore', 'moment', 'templating', 'session'], 'client');
+    api.use('coffeescript', 'server');
 
-    api.add_files(['style.css', 'xautocomple.html', 'xautocomplete.coffee', 'xcalendar.html', 'xcalendar.coffee'], 'client');
+    api.add_files(['style.css', 'xautocomple.html', 'xcalendar.html', 'xautocomplete.coffee', 'xcalendar.coffee'], 'client');
     //api.add_files('xautocomple.html', 'client');
 });

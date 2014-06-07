@@ -22,7 +22,7 @@ $.fn.xcalendar = (id)->
     this
 
 Template.xcalendar.rendered = ->
-    $('.container-calendar').xcalendar($(@find('button')).attr('id'))
+    $('.container-calendar').xcalendar($(@find('.xbutton')).attr('id'))
 
 Session.set 'xday', moment().toDate()
 calendar_pop = new Meteor.Collection null
@@ -35,7 +35,7 @@ Template.xcalendar.events
     'click .calendar-day': (e,t)->
         el=t.find('.container-calendar')
         $(el).val($(e.target).attr('date'))
-    'click button': (e,t)->
+    'click .xbutton': (e,t)->
         id=$(e.target).attr('id')
         visible = calendar_pop.findOne(id:id).visible
         calendar_pop.update({id:id}, {$set: {visible: not visible}})
