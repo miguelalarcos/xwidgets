@@ -1,0 +1,55 @@
+.popover {
+    position: absolute;
+    z-index: 2;
+    background-color: #F3E2A9;
+    cursor: pointer;
+}
+
+.selected{
+    background-color: #58FAF4;
+    font-weight: bold;
+}
+
+.tag{
+    background-color: #F3E2A9;
+    border-radius: 3px;
+}
+
+.xclose{
+    cursor: pointer;
+}
+
+.editable{
+    cursor: pointer;
+}
+
+.minus-month{
+    cursor: pointer;
+}
+
+.plus-month{
+    cursor: pointer;
+}
+
+.calendar-day{
+    cursor: pointer;
+}
+
+.calendar-day:hover{
+    background-color: #58FAF4;
+}
+
+.bold{
+ font-weight: bold;   
+}
+
+.invisible{
+display: none;
+
+}
+
+.popover-calendar {
+    position: absolute;
+    z-index: 2;
+    background-color: #F3E2A9;
+}

@@ -1,0 +1,12 @@
+{
+      "name": "xwidgets",
+      "description": "A set of useful widgets for display and enter data. Play nicely with AutoForm.",
+      "homepage": "https://github.com/miguelalarcos/xwidgets",
+      "author": "Miguel Ángel Alarcos <miguel.alarcos@gmail.com>",
+      "version": "0.1.0",
+      "git": "https://github.com/miguelalarcos/xwidgets.git",
+      "packages": {
+        "moment":{}
+      }
+}
+

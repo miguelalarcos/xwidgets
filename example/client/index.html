@@ -1,0 +1,30 @@
+<body>
+    {{> form}}
+ </body>
+
+<template name='form'>
+    {{#autoForm collection="items2" id="ItemForm" doc=doc type=type}}
+        <fieldset>    
+            <legend>Form</legend>
+            {{> afFieldInput name='date' id='10' format='DD-MM-YYYY' template='calendar'}}
+            {{> afFieldInput name='date2' id='11' format='DD-MM-YYYY' template='calendar'}}
+            <h4>Referential array</h4>                   
+            {{> afFieldInput name='field1' id='0' references='items.name' call='items' tag='tag1' template='tags'}}
+            <h4>Referential</h4>
+            {{> afFieldInput name='field2' id='1' references='items.name' call='items' template='tags'}}
+            <h4>Array autocomplete non strict</h4>
+            {{> afFieldInput name='field3' id='2' call='items' tag='tag2' template='tags' strict='false'}}
+            <h4>Autocomplete non strict</h4>
+            {{> afFieldInput name='field4' id='3' call='items' template='tags' strict='false'}}
+            <h4>Array autocomplete strict</h4>
+            {{> afFieldInput name='field5' id='4' call='items' tag='tag3' template='tags' strict='true'}}
+            <h4>Autocomplete strict</h4>
+            {{> afFieldInput name='field6' id='5' call='items' template='tags' strict='true'}}
+        </fieldset>
+        <button type="submit" class="btn btn-primary">Save</button>
+    {{/autoForm}}
+    {{#each items}}
+        <div class=editable _id={{_id}}>{{_id}}</div>
+    {{/each}}
+</template>
+

@@ -1,0 +1,22 @@
+<template name='afInput_calendar'>
+    {{> xcalendar format=this.atts.format id=this.atts.id name=this.name value=this.value}}
+</template>
+
+
+<template name="xcalendar">
+  <div class=container-calendar format={{this.format}} data-schema-key={{this.name}}>
+  {{setInitial this.value this.id}}
+    <input type='text' class=xcalendar>
+    <button id="{{this.id}}">C</button>
+    <div class="popover-calendar {{visible this.id}}" tabindex=100>
+        <span class=minus-month> - </span> <span class=plus-month> + </span>
+        {{#each week}}
+            <div>
+                {{#each day this}}
+                <span class="calendar-day {{clase}}" date={{this.date}}>{{this.value}}</span>
+                {{/each}}
+            </div>
+        {{/each}}
+    </div>
+  </div>
+</template>
