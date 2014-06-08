@@ -2,6 +2,12 @@
 
 @items2 = new Meteor.Collection "Items2",
     schema:
+        boolean:
+            type: Boolean
+            optional: true
+        boolean2:
+            type: Boolean
+            optional: true
         field1:
             type: [String]
             optional: true

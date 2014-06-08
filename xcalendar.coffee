@@ -1,5 +1,6 @@
 Session.set 'xday', moment().toDate()
 calendar_pop = new Meteor.Collection null
+calendar_date = new Meteor.Collection null
 
 $.valHooks['xcalendar'] =
     get: (el)->
@@ -10,8 +11,11 @@ $.valHooks['xcalendar'] =
         moment.utc(value, format).toDate()
  
     set: (el, value)->   
+        name = $(el).attr('data-schema-key')
         if _.isEqual(value, [""]) or value == '' # don't know why happens
-            $(el).find('.xcalendar').attr('value', '')    
+            #$(el).find('.xcalendar').attr('value', '')  
+            calendar_date.remove(name:name)        
+            calendar_date.insert(name:name, value:'')
             return
         if _.isString(value)
             value = moment(value, "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]")
@@ -20,8 +24,10 @@ $.valHooks['xcalendar'] =
 
         format = $(el).attr('format')
         value = value.format(format)
-        console.log value
-        $(el).find('.xcalendar').attr('value',value)
+        
+        calendar_date.remove(name:name)        
+        calendar_date.insert(name:name, value:value)
+        #$(el).find('.xcalendar').attr('value',value)
 
 $.fn.xcalendar = (name)->
     this.each -> 
@@ -29,8 +35,9 @@ $.fn.xcalendar = (name)->
         calendar_pop.insert({name:name, visible:false})
     this
 
-Template.xcalendar.rendered = ->
-    $('.container-calendar').xcalendar($(@find('.xbutton')).attr('name'))
+Template.xcalendar.rendered = -> 
+    #$('.container-calendar').xcalendar($(@find('.xbutton')).attr('name'))
+    $(this.find('.container-calendar')).xcalendar($(@find('.xbutton')).attr('name'))
 
 Template.xcalendar.events
     'click .minus-month': (e,t)->
@@ -51,6 +58,12 @@ Template.xcalendar.events
         $(el).val(date+' '+hour)
 
 Template.xcalendar.helpers
+    getValue: (name) ->
+        item = calendar_date.findOne(name:name)
+        if item
+            item.value
+        else
+            null
     setInitial: (value, name)->
         el = $('[name='+name+']').parent()
         el.val(value) # set the value on the container

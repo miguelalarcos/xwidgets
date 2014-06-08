@@ -132,7 +132,8 @@ $.fn.xautocomplete = ->
     this
      
 
-Template.xautocomplete.rendered = ->
-    $('.container-autocomplete').xautocomplete()
+Template.xautocomplete.rendered = -> 
+    #$('.container-autocomplete').xautocomplete()
+    $(this.find('.container-autocomplete')).xautocomplete()
 
 
