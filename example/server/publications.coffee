@@ -7,3 +7,6 @@ if items.find().count() == 0
 Meteor.methods
     items: (query)->
         items.find(name: {$regex: '^.*'+query+'.*$'}).fetch()
+
+@items2.allow
+    remove: -> true

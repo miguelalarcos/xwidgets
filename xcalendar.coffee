@@ -1,3 +1,6 @@
+Session.set 'xday', moment().toDate()
+calendar_pop = new Meteor.Collection null
+
 $.valHooks['xcalendar'] =
     get: (el)->
         value = $(el).find('.xcalendar').val()
@@ -7,12 +10,16 @@ $.valHooks['xcalendar'] =
         moment.utc(value, format).toDate()
  
     set: (el, value)->   
-        if _.isEqual(value, [""]) or value == ''
+        if _.isEqual(value, [""]) or value == '' # don't know why happens
+            $(el).find('.xcalendar').attr('value', '')    
             return
-        value = moment(value, 'DD-MM-YYYY')     
+        if _.isString(value)
+            value = moment(value, "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]")
+        else if _.isDate(value)
+            value = moment(value)
+
         format = $(el).attr('format')
         value = value.format(format)
-        #$(el).find('.xcalendar').val(value)
         $(el).find('.xcalendar').attr('value',value)
 
 $.fn.xcalendar = (id)->
@@ -23,9 +30,6 @@ $.fn.xcalendar = (id)->
 
 Template.xcalendar.rendered = ->
     $('.container-calendar').xcalendar($(@find('.xbutton')).attr('id'))
-
-Session.set 'xday', moment().toDate()
-calendar_pop = new Meteor.Collection null
 
 Template.xcalendar.events
     'click .minus-month': (e,t)->
@@ -39,15 +43,16 @@ Template.xcalendar.events
         id=$(e.target).attr('id')
         visible = calendar_pop.findOne(id:id).visible
         calendar_pop.update({id:id}, {$set: {visible: not visible}})
+    'click .set-hour': (e,t)->
+        el=t.find('.container-calendar')
+        hour = $(t.find('.xhour')).val()
+        date = moment($(el).val()).startOf('Day').format('YYYY-MM-DD')
+        $(el).val(date+' '+hour)
 
 Template.xcalendar.helpers
-    objeto: -> {value:moment(), id:'10'}
     setInitial: (value, id)->
-        console.log value, typeof value
-        if value        
-            value = moment(value, "YYYY-MM-DD[T]hh:mm:ss.SSS").format('DD-MM-YYYY')
-            el = $('#'+id).parent()
-            el.val(value) # set the value on the container
+        el = $('#'+id).parent()
+        el.val(value) # set the value on the container
         null 
 
     visible: (id)-> 
@@ -69,7 +74,7 @@ Template.xcalendar.helpers
                 clase = 'bold'
             else
                 clase = ''
-            ret.push {value: ini.format('DD'), date: ini.format('DD-MM-YYYY'), clase: clase}
+            ret.push {value: ini.format('DD'), date: ini.format('YYYY-MM-DD'), clase: clase}
             ini.add('days', 1)
         ret[week*7...week*7+7]
 

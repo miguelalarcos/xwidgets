@@ -5,7 +5,8 @@
       "autoform": {},
       "xwidgets": {
         "path": ".."
-      }
+      },
+      "mocha-web": {}
     },
     "packages": {
       "autoform": {
@@ -15,6 +16,11 @@
       },
       "xwidgets": {
         "path": ".."
+      },
+      "mocha-web": {
+        "git": "https://github.com/mad-eye/meteor-mocha-web.git",
+        "tag": "v0.2.4",
+        "commit": "97194bc90ea9b32047973ff44562a3da3b4e7477"
       },
       "simple-schema": {
         "git": "https://github.com/aldeed/meteor-simple-schema.git",
