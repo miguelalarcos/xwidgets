@@ -16,20 +16,20 @@ $.valHooks['xcalendar'] =
         if _.isString(value)
             value = moment(value, "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]")
         else if _.isDate(value)
-            value = moment(value)
+            value = moment.utc(value)
 
         format = $(el).attr('format')
         value = value.format(format)
         $(el).find('.xcalendar').attr('value',value)
 
-$.fn.xcalendar = (id)->
+$.fn.xcalendar = (name)->
     this.each -> 
         this.type = 'xcalendar'
-        calendar_pop.insert({id:id, visible:false})
+        calendar_pop.insert({name:name, visible:false})
     this
 
 Template.xcalendar.rendered = ->
-    $('.container-calendar').xcalendar($(@find('.xbutton')).attr('id'))
+    $('.container-calendar').xcalendar($(@find('.xbutton')).attr('name'))
 
 Template.xcalendar.events
     'click .minus-month': (e,t)->
@@ -40,9 +40,9 @@ Template.xcalendar.events
         el=t.find('.container-calendar')
         $(el).val($(e.target).attr('date'))
     'click .xbutton': (e,t)->
-        id=$(e.target).attr('id')
-        visible = calendar_pop.findOne(id:id).visible
-        calendar_pop.update({id:id}, {$set: {visible: not visible}})
+        name=$(e.target).attr('name')
+        visible = calendar_pop.findOne(name:name).visible
+        calendar_pop.update({name:name}, {$set: {visible: not visible}})
     'click .set-hour': (e,t)->
         el=t.find('.container-calendar')
         hour = $(t.find('.xhour')).val()
@@ -50,13 +50,13 @@ Template.xcalendar.events
         $(el).val(date+' '+hour)
 
 Template.xcalendar.helpers
-    setInitial: (value, id)->
-        el = $('#'+id).parent()
+    setInitial: (value, name)->
+        el = $('[name='+name+']').parent()
         el.val(value) # set the value on the container
         null 
 
-    visible: (id)-> 
-        item=calendar_pop.findOne(id:id)
+    visible: (name)-> 
+        item=calendar_pop.findOne(name:name)
         if not item or not item.visible
             'invisible'
     week: -> (i for i in [0...6])

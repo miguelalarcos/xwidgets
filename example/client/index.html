@@ -7,8 +7,8 @@
     {{#autoForm collection="items2" id="ItemForm" doc=doc type=type}}
         <fieldset>    
             <legend>Form</legend>
-            {{> afFieldInput type='datetime' name='date' id='10' format='DD-MM-YYYY HH:mm' template='calendar'}}
-            {{> afFieldInput name='date2' id='11' format='DD-MM-YYYY' template='calendar'}}
+            {{> afFieldInput type='datetime' name='date' format='DD-MM-YYYY HH:mm' template='calendar'}}
+            {{> afFieldInput name='date2' format='DD-MM-YYYY' template='calendar'}}
             <h4>Referential array</h4>                   
             {{> afFieldInput name='field1' id='0' references='items.name' call='items' tag='tag1' template='tags'}}
             <h4>Referential</h4>
