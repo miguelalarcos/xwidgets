@@ -13,3 +13,23 @@ describe "xautocomplete", ->
         $('div[data-schema-key=field2]').val(id)     
         id2 = $('div[data-schema-key=field2]').val()
         chai.assert.equal id, id2
+
+    it "set array no strict", ->
+        $('div[data-schema-key=field3]').val(['hello', 'world'])     
+        arr = $('div[data-schema-key=field3]').val()
+        chai.assert.equal _.isEqual(['hello', 'world'], arr), true
+
+    it "set no strict", ->
+        $('div[data-schema-key=field4]').val('insert coin')     
+        value = $('div[data-schema-key=field4]').val()
+        chai.assert.equal 'insert coin', value
+
+    it "set array strict", ->
+        $('div[data-schema-key=field5]').val(['Darwin', 'Dennet'])     
+        arr = $('div[data-schema-key=field5]').val()
+        chai.assert.equal _.isEqual(['Darwin', 'Dennet'], arr), true
+
+    it "set strict", ->
+        $('div[data-schema-key=field6]').val('Darwin')     
+        value = $('div[data-schema-key=field6]').val()
+        chai.assert.equal 'Darwin', value

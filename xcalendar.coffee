@@ -20,6 +20,7 @@ $.valHooks['xcalendar'] =
 
         format = $(el).attr('format')
         value = value.format(format)
+        console.log value
         $(el).find('.xcalendar').attr('value',value)
 
 $.fn.xcalendar = (name)->
