@@ -1,14 +1,20 @@
 Session.set 'xquery', null
-@local_items = local_items = new Meteor.Collection null
-@local_tags = local_tags = new Meteor.Collection null
-
+local_items = new Meteor.Collection null
+local_tags = new Meteor.Collection null
+local_input_values = new Meteor.Collection null
 
 index = -1
 current_input = null
 
 Template.xautocomplete.helpers
-    setInitial: (value, name)-> # we pass this.value from the template, and the id so we can found the container (the parent)
-        el = $('[name='+name+']').parent()
+    getValue: (name) ->
+        item = local_input_values.findOne(name:name)
+        if item 
+            item.value 
+        else 
+            null
+    setInitial: (value, name)-> 
+        el = $('div[name='+name+']')
         el.val(value) # set the value on the container
         null        
     tags: (tag) -> local_tags.find tag:tag 
@@ -27,7 +33,10 @@ Template.xautocomplete.helpers
 Template.xautocomplete.events
     'click .xitem':(e,t)->
         el = t.find('.xautocomplete')
-        $(el).val($(e.target).html())
+        #$(el).val($(e.target).html())
+        name = $(t.find('.xautocomplete')).attr('name')
+        value = $(e.target).html()
+        local_input_values.update({name:name}, {$set: {value:value}})
         index = $(e.target).attr('index')        
         local_items.update({},{$set:{selected: ''}})
         local_items.update({index: parseInt(index)}, {$set:{selected: 'selected'}})
@@ -47,6 +56,8 @@ Template.xautocomplete.events
             if index == count then index = 0 else index += 1
             local_items.update({index:index}, {$set:{selected: 'selected'}})
         else if e.keyCode == 13
+            $(e.target).parent().focus()
+            console.log $(e.target).parent()[0]
             if t.data.tag # tag mode
                 selected = local_items.findOne selected: 'selected'
                 if selected
@@ -61,7 +72,8 @@ Template.xautocomplete.events
             else
                 selected = local_items.findOne selected: 'selected'
                 if selected
-                    $(e.target).val(selected.name)
+                    name = $(e.target).attr('name')
+                    local_input_values.update({name:name}, {$set: {value:selected.name}})
                     $(e.target).attr('_id', selected.remote_id)             
             # close popover
             local_items.remove({})
@@ -125,7 +137,10 @@ $.valHooks['xautocomplete'] =
                     value = item[toDisplay]
                     _id = item._id
                 $(el).find('.xautocomplete').attr('_id', _id)
-            $(el).find('.xautocomplete').val(value)
+            #$(el).find('.xautocomplete').val(value)
+            name = $(el).attr('name')
+            local_input_values.remove({name:name})
+            local_input_values.insert({name:name, value:value})
 
 $.fn.xautocomplete = ->
     this.each -> this.type = 'xautocomplete'

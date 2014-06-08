@@ -1,7 +1,7 @@
 <template name='xautocomplete'>
-    <div class=container-autocomplete tag={{this.tag}} references={{this.references}} strict={{this.strict}} name={{this.name}} data-schema-key={{this.name}}>
+    <div class=container-autocomplete tabindex=100 tag={{this.tag}} references={{this.references}} strict={{this.strict}} name={{this.name}} data-schema-key={{this.name}}>
         {{setInitial this.value this.name}}
-        <input type='text' class=xautocomplete name={{this.name}} >
+        <input type='text' class=xautocomplete name={{this.name}} value="{{getValue this.name}}">
         <div class=popover tabindex=100>
         {{#each items this.call this.name}}
             <div index={{this.index}} class="xitem {{this.selected}}">{{this.name}}</div>

@@ -6,7 +6,7 @@
 <template name="xcalendar">
   <div class=container-calendar format={{this.format}} data-schema-key={{this.name}}>
   {{setInitial this.value this.name}}
-    <input type='text' class=xcalendar value={{getValue this.name}}>
+    <input type='text' class=xcalendar value="{{getValue this.name}}">
     <a class=xbutton name="{{this.name}}">C</a>
     <div class="popover-calendar {{visible this.name}}" tabindex=100>
         <span class=minus-month> - </span> <span class=plus-month> + </span>

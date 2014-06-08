@@ -20,9 +20,10 @@ describe "xautocomplete", ->
         chai.assert.equal _.isEqual(['hello', 'world'], arr), true
 
     it "set no strict", ->
-        $('div[data-schema-key=field4]').val('insert coin')     
-        value = $('div[data-schema-key=field4]').val()
-        chai.assert.equal 'insert coin', value
+        $('div[data-schema-key=field4]').val('insert coin')  
+        Meteor.setTimeout ->   
+            value = $('div[data-schema-key=field4]').val()
+            chai.assert.equal 'insert coin', value
 
     it "set array strict", ->
         $('div[data-schema-key=field5]').val(['Darwin', 'Dennet'])     
@@ -30,6 +31,7 @@ describe "xautocomplete", ->
         chai.assert.equal _.isEqual(['Darwin', 'Dennet'], arr), true
 
     it "set strict", ->
-        $('div[data-schema-key=field6]').val('Darwin')     
-        value = $('div[data-schema-key=field6]').val()
-        chai.assert.equal 'Darwin', value
+        $('div[data-schema-key=field6]').val('Darwin')   
+        Meteor.setTimeout ->  
+            value = $('div[data-schema-key=field6]').val()
+            chai.assert.equal 'Darwin', value
