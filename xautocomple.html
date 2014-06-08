@@ -1,9 +1,9 @@
 <template name='xautocomplete'>
     <div class=container-autocomplete tag={{this.tag}} references={{this.references}} strict={{this.strict}} name={{this.name}} data-schema-key={{this.name}}>
-        {{setInitial this.value this.id}}
-        <input type='text' class=xautocomplete id={{this.id}} >
+        {{setInitial this.value this.name}}
+        <input type='text' class=xautocomplete name={{this.name}} >
         <div class=popover tabindex=100>
-        {{#each items this.call this.id}}
+        {{#each items this.call this.name}}
             <div index={{this.index}} class="xitem {{this.selected}}">{{this.name}}</div>
         {{/each}}
         </div>
@@ -14,5 +14,5 @@
 </template>
 
 <template name='afInput_tags'>
-    {{> xautocomplete id=this.atts.id name=this.name value=this.value references=this.atts.references call=this.atts.call tag=this.atts.tag strict=this.atts.strict data-schema-key=this.name autocomplete="off" spellcheck="off"}}
+    {{> xautocomplete name=this.name value=this.value references=this.atts.references call=this.atts.call tag=this.atts.tag strict=this.atts.strict data-schema-key=this.name autocomplete="off" spellcheck="off"}}
 </template>

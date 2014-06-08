@@ -7,14 +7,14 @@ index = -1
 current_input = null
 
 Template.xautocomplete.helpers
-    setInitial: (value, id)-> # we pass this.value from the template, and the id so we can found the container (the parent)
-        el = $('#'+id).parent()
+    setInitial: (value, name)-> # we pass this.value from the template, and the id so we can found the container (the parent)
+        el = $('[name='+name+']').parent()
         el.val(value) # set the value on the container
         null        
     tags: (tag) -> local_tags.find tag:tag 
-    items: (call, id) -> # the items that will be shown in the popover
+    items: (call, name) -> # the items that will be shown in the popover
         query = Session.get('xquery')
-        if id == current_input                    
+        if name == current_input                    
             if query != ''
                 Meteor.call call, query, (error, result)->
                     local_items.remove({})  
@@ -68,7 +68,7 @@ Template.xautocomplete.events
             Session.set('xquery','')
         else # normal keypress. If the text is like an item, we set the _id as the remote _id
             Session.set 'xquery', $(e.target).val()
-            current_input = $(e.target).attr('id')
+            current_input = $(e.target).attr('name')
             item = local_items.findOne({name: $(e.target).val()})
             if item
                 $(e.target).attr('_id', item.remote_id)
