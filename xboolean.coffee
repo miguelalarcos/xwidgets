@@ -9,7 +9,14 @@ $.valHooks['xboolean'] =
         xdata.findOne(name:name).value
     set: (el, value)->   
         name = $(el).attr('name')
-        xdata.update({name:name}, {$set:{value: value}})
+        if not xdata.findOne(name:name)
+            xdata.insert({name:name, value:value})
+            console.log 'insert', name, value
+        else
+            xdata.update({name:name}, {$set:{value: value}}) 
+            console.log 'update', name, value
+        #name = $(el).attr('name')
+        #xdata.update({name:name}, {$set:{value: value}})
 
 $.fn.xboolean = ->
     this.each -> 
@@ -25,14 +32,24 @@ Template.xboolean.rendered = ->
 Template.xboolean.events
     'click circle': (e,t) ->
         name = $(e.target).attr('name')
-        val = xdata.findOne(name:name).value
-        xdata.update({name:name}, {$set:{value: not val}})
+        
+        item = xdata.findOne(name:name)
+        if item
+            $(t.find('.xboolean')).val(not item.value)
+        else
+            $(t.find('.xboolean')).val(false)
 
 Template.xboolean.helpers
     setInitial: (name, value)->
         if value == 'true' then value = true else value = false
-        xdata.insert({name:name, value:value})
+        el = $('div[name='+name+']')
+        el.val(value)
         null
+        #xdata.insert({name:name, value:value})
+        #null
     getColor: (name) ->
-        val = xdata.findOne(name:name).value
-        if val then 'green' else 'red'
+        item = xdata.findOne(name:name)
+        if item
+            if item.value then 'green' else 'red'
+        else
+            'black'

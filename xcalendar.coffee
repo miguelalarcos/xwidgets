@@ -31,9 +31,9 @@ $.valHooks['xcalendar'] =
         format = $(el).attr('format')
         value = value.format(format)
         
-        #xdata.remove(name:name)        
-        #xdata.insert(name:name, value:value)
-        xdata.update({name: name}, {$set:{value: value}})
+        xdata.remove(name:name)        
+        xdata.insert(name:name, value:value)
+        #xdata.update({name: name}, {$set:{value: value}})
         
 
 $.fn.xcalendar = (name)->
@@ -106,7 +106,7 @@ Template.xcalendar.helpers
             null
     setInitial: (value, name)->
         calendar_pop.insert({name:name, visible:false})
-        xdata.insert({name:name, value:value})
+        #xdata.insert({name:name, value:value})
         el = $('[name='+name+']').parent()
         el.val(value) # set the value on the container
         null 
