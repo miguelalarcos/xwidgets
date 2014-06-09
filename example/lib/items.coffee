@@ -2,6 +2,9 @@
 
 @items2 = new Meteor.Collection "Items2",
     schema:
+        integer:
+            type: Number
+            optional: true
         boolean:
             type: Boolean
             optional: true

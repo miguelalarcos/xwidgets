@@ -15,3 +15,8 @@ Template.form.rendered =->
         if event.keyCode == 13
             event.preventDefault()
             return false
+
+AutoForm.hooks
+    ItemForm:
+         onError: (operation, error, template)->
+            console.log operation, error

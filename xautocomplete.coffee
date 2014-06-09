@@ -1,14 +1,14 @@
 Session.set 'xquery', null
 local_items = new Meteor.Collection null
 local_tags = new Meteor.Collection null
-local_input_values = new Meteor.Collection null
+xdata = new Meteor.Collection null
 
 index = -1
 current_input = null
 
 Template.xautocomplete.helpers
     getValue: (name) ->
-        item = local_input_values.findOne(name:name)
+        item = xdata.findOne(name:name)
         if item 
             item.value 
         else 
@@ -36,7 +36,7 @@ Template.xautocomplete.events
         #$(el).val($(e.target).html())
         name = $(t.find('.xautocomplete')).attr('name')
         value = $(e.target).html()
-        local_input_values.update({name:name}, {$set: {value:value}})
+        xdata.update({name:name}, {$set: {value:value}})
         index = $(e.target).attr('index')        
         local_items.update({},{$set:{selected: ''}})
         local_items.update({index: parseInt(index)}, {$set:{selected: 'selected'}})
@@ -56,7 +56,7 @@ Template.xautocomplete.events
             if index == count then index = 0 else index += 1
             local_items.update({index:index}, {$set:{selected: 'selected'}})
         else if e.keyCode == 13
-            $(e.target).parent().focus()
+            $(e.target).parent().find('.popover').focus()
             console.log $(e.target).parent()[0]
             if t.data.tag # tag mode
                 selected = local_items.findOne selected: 'selected'
@@ -73,7 +73,7 @@ Template.xautocomplete.events
                 selected = local_items.findOne selected: 'selected'
                 if selected
                     name = $(e.target).attr('name')
-                    local_input_values.update({name:name}, {$set: {value:selected.name}})
+                    xdata.update({name:name}, {$set: {value:selected.name}})
                     $(e.target).attr('_id', selected.remote_id)             
             # close popover
             local_items.remove({})
@@ -139,8 +139,8 @@ $.valHooks['xautocomplete'] =
                 $(el).find('.xautocomplete').attr('_id', _id)
             #$(el).find('.xautocomplete').val(value)
             name = $(el).attr('name')
-            local_input_values.remove({name:name})
-            local_input_values.insert({name:name, value:value})
+            xdata.remove({name:name})
+            xdata.insert({name:name, value:value})
 
 $.fn.xautocomplete = ->
     this.each -> this.type = 'xautocomplete'

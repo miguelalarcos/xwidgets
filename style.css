@@ -58,3 +58,12 @@ display: none;
     background-color: #58FAF4;
     cursor: pointer;
 }
+
+.plus-hour, .minus-hour, .plus-minute, .minus-minute{
+    cursor: pointer;
+}
+
+line.mark{
+    cursor: pointer;
+}
+

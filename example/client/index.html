@@ -7,6 +7,7 @@
     {{#autoForm collection="items2" id="ItemForm" doc=doc type=type}}
         <fieldset>    
             <legend>Form</legend>
+            {{> afFieldInput name='integer' template='line'}}
             {{> afFieldInput name='boolean' template='circle'}}
             {{> afFieldInput name='boolean2' template='circle'}}
             {{> afFieldInput type='datetime' name='date' format='DD-MM-YYYY HH:mm' template='calendar'}}

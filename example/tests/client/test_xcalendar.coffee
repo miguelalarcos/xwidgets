@@ -3,7 +3,7 @@ describe "xcalendar", ->
         date = moment.utc()
         $('div[data-schema-key=date]').val(date)   
         Meteor.setTimeout ->  
-            value = moment($('div[data-schema-key=date]').val())        
+            value = moment($('div[data-schema-key=date]').val())     
             chai.assert.equal date.isSame(value, 'minute'), true
 
     it "set Date", ->

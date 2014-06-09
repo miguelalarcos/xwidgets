@@ -1,0 +1,13 @@
+<template name='afCheckbox_circle'>
+    {{> xboolean name=this.name value=this.value}}
+</template>
+
+
+<template name="xboolean">
+  <div class=xboolean name={{this.name}} data-schema-key={{this.name}}>
+    {{setInitial this.name this.value}}
+    <svg height="10" width="10">
+        <circle name={{this.name}} cx="5" cy="5" r="5" fill="{{getColor this.name}}" />
+    </svg>
+  </div>
+</template>
