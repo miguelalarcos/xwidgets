@@ -1,9 +1,9 @@
-<template name='afInput_line'>
-    {{> xinteger name=this.name value=this.value}}
+<template name='afInput_percentage'>
+    {{> xpercentage name=this.name value=this.value}}
 </template>
 
 
-<template name="xinteger">
+<template name="xpercentage">
   <div class=xinteger name={{this.name}} data-schema-key={{this.name}}>
     {{setInitial this.name this.value}}
     <svg height="10" width="100" name="{{this.name}}">        
@@ -11,6 +11,6 @@
         <rect name={{this.name}} class=mark x1=0 y1=0 width=100 height=10 stroke="black" fill-opacity=0 stroke-width=3 />
 
     </svg>
-    <input class=xinteger type='text' value={{getValue this.name}}>
+    <input type='text' value={{getValue this.name}}>
   </div>
 </template>

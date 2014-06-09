@@ -6,6 +6,6 @@ Package.on_use(function (api) {
     api.use(['jquery', 'coffeescript', 'underscore', 'moment', 'templating', 'session'], 'client');
     api.use('coffeescript', 'server');
 
-    api.add_files(['style.css', 'xinteger.html', 'xinteger.coffee', 'xboolean.html', 'xboolean.coffee', 'xautocomple.html', 'xcalendar.html', 'xautocomplete.coffee', 'xcalendar.coffee'], 'client');
-    //api.add_files('xautocomple.html', 'client');
+    api.add_files(['style.css', 'xpercentage.html', 'xpercentage.coffee', 'xboolean.html', 'xboolean.coffee', 'xautocomple.html', 'xcalendar.html', 'xautocomplete.coffee', 'xcalendar.coffee'], 'client');
+    
 });

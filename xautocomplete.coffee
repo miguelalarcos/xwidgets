@@ -57,7 +57,6 @@ Template.xautocomplete.events
             local_items.update({index:index}, {$set:{selected: 'selected'}})
         else if e.keyCode == 13
             $(e.target).parent().find('.popover').focus()
-            console.log $(e.target).parent()[0]
             if t.data.tag # tag mode
                 selected = local_items.findOne selected: 'selected'
                 if selected
@@ -78,6 +77,7 @@ Template.xautocomplete.events
             # close popover
             local_items.remove({})
             Session.set('xquery','')
+            index = -1
         else # normal keypress. If the text is like an item, we set the _id as the remote _id
             Session.set 'xquery', $(e.target).val()
             current_input = $(e.target).attr('name')
@@ -148,7 +148,6 @@ $.fn.xautocomplete = ->
      
 
 Template.xautocomplete.rendered = -> 
-    #$('.container-autocomplete').xautocomplete()
-    $(this.find('.container-autocomplete')).xautocomplete()
+    $(this.find('.xautocomplete-tag')).xautocomplete()
 
 

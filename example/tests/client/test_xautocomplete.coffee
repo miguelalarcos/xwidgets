@@ -21,9 +21,9 @@ describe "xautocomplete", ->
 
     it "set no strict", ->
         $('div[data-schema-key=field4]').val('insert coin')  
-        Meteor.setTimeout ->   
-            value = $('div[data-schema-key=field4]').val()
-            chai.assert.equal 'insert coin', value
+        Meteor.flush()
+        value = $('div[data-schema-key=field4]').val()
+        chai.assert.equal 'insert coin', value
 
     it "set array strict", ->
         $('div[data-schema-key=field5]').val(['Darwin', 'Dennet'])     
@@ -32,6 +32,6 @@ describe "xautocomplete", ->
 
     it "set strict", ->
         $('div[data-schema-key=field6]').val('Darwin')   
-        Meteor.setTimeout ->  
-            value = $('div[data-schema-key=field6]').val()
-            chai.assert.equal 'Darwin', value
+        Meteor.flush()
+        value = $('div[data-schema-key=field6]').val()
+        chai.assert.equal 'Darwin', value

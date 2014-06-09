@@ -1,7 +1,7 @@
 Session.set 'xMark', 0
 xdata = new Meteor.Collection null
 
-Template.xinteger.helpers
+Template.xpercentage.helpers
     xMark: -> Session.get 'xMark'
     setInitial: (name, value)->
         xdata.insert({name:name, value:value})
@@ -9,14 +9,14 @@ Template.xinteger.helpers
     getValue: (name)->
         xdata.findOne(name:name).value
 
-Template.xinteger.events
+Template.xpercentage.events
     'mousemove .mark': (e,t)->
         Session.set 'xMark', e.offsetX
     'click .mark': (e,t)->
         name = $(e.target).attr('name')
         xdata.update({name: name}, {$set: {value: e.offsetX} })
 
-$.valHooks['xinteger'] =
+$.valHooks['xpercentage'] =
     get: (el)->
         name = $(el).attr('name')
         xdata.findOne(name:name).value
@@ -24,10 +24,10 @@ $.valHooks['xinteger'] =
         name = $(el).attr('name')
         xdata.update({name:name}, {$set:{value: value}})
 
-$.fn.xinteger = ->
+$.fn.xpercentage = ->
     this.each -> 
-        this.type = 'xinteger'
+        this.type = 'xpercentage'
     this
 
-Template.xinteger.rendered = ->
-    $(this.find('.xinteger')).xinteger()
+Template.xpercentage.rendered = ->
+    $(this.find('.xpercentage')).xpercentage()
