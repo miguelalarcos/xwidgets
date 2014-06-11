@@ -11,12 +11,9 @@ $.valHooks['xboolean'] =
         name = $(el).attr('name')
         if not xdata.findOne(name:name)
             xdata.insert({name:name, value:value})
-            console.log 'insert', name, value
         else
             xdata.update({name:name}, {$set:{value: value}}) 
-            console.log 'update', name, value
-        #name = $(el).attr('name')
-        #xdata.update({name:name}, {$set:{value: value}})
+
 
 $.fn.xboolean = ->
     this.each -> 
@@ -45,11 +42,28 @@ Template.xboolean.helpers
         el = $('div[name='+name+']')
         el.val(value)
         null
-        #xdata.insert({name:name, value:value})
-        #null
+
     getColor: (name) ->
         item = xdata.findOne(name:name)
         if item
             if item.value then 'green' else 'red'
         else
             'black'
+    getName: ->
+        if this.formContext
+            prefix = this.formContext._af.formId
+        else
+            prefix = ''
+        prefix + '#' + this.name
+
+
+UI.registerHelper 'includeFormContext', ->
+    context = actual_context = arguments[0]
+    i = 1
+    while context and not context._af
+        context = arguments[i]
+        i += 1
+
+    actual_context.formContext = context
+    actual_context
+

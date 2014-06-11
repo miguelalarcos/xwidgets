@@ -4,10 +4,12 @@
 
 
 <template name="xboolean">
-  <div class=xboolean name={{this.name}} data-schema-key={{this.name}}>
-    {{setInitial this.name this.value}}
-    <svg height="10" width="10">
-        <circle name={{this.name}} cx="5" cy="5" r="5" fill="{{getColor this.name}}" />
-    </svg>
-  </div>
+  {{#with includeFormContext .. ../.. ../../.. ../../../.. ../../../../.. }}
+      <div class=xboolean name="{{getName}}" data-schema-key="{{this.name}}">
+        {{setInitial getName this.value}}
+        <svg height="10" width="10">
+            <circle name="{{getName}}" cx="5" cy="5" r="5" fill="{{getColor getName}}" />
+        </svg>
+      </div>
+  {{/with}}
 </template>
