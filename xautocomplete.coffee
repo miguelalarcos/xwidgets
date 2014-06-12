@@ -1,20 +1,26 @@
 Session.set 'xquery', null
 local_items = new Meteor.Collection null
-local_tags = new Meteor.Collection null
+@local_tags = local_tags = new Meteor.Collection null
 xdata = new Meteor.Collection null
 
 index = -1
 current_input = null
 
 Template.xautocomplete.helpers
+    getName: ->
+        if this.formContext
+            prefix = this.formContext._af.formId
+        else
+            prefix = ''
+        prefix + '#' + this.name
     getValue: (name) ->
         item = xdata.findOne(name:name)
         if item 
             item.value 
         else 
             null
-    setInitial: (value, name)-> 
-        el = $('div[name='+name+']')
+    setInitial: (name, value)-> 
+        el = $('div.xwidget[name='+name+']')
         el.val(value) # set the value on the container
         null        
     tags: (tag) -> local_tags.find tag:tag 
@@ -33,9 +39,8 @@ Template.xautocomplete.helpers
 Template.xautocomplete.events
     'click .xitem':(e,t)->
         el = t.find('.xautocomplete')
-        #$(el).val($(e.target).html())
         name = $(t.find('.xautocomplete')).attr('name')
-        value = $(e.target).html()
+        value = $(e.target).html() # why html?
         xdata.update({name:name}, {$set: {value:value}})
         index = $(e.target).attr('index')        
         local_items.update({},{$set:{selected: ''}})

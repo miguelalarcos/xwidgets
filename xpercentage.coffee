@@ -4,12 +4,18 @@ xdata = new Meteor.Collection null
 Template.xpercentage.helpers
     xMark: -> Session.get 'xMark'
     setInitial: (name, value)->
-        el = $('div[name='+name+']')
+        el = $('div.xwidget[name='+name+']')
         el.val(value)
         null
     getValue: (name)->
         item = xdata.findOne(name:name)
         if item then item.value else null
+    getName: ->
+        if this.formContext
+            prefix = this.formContext._af.formId
+        else
+            prefix = ''
+        prefix + '#' + this.name
 
 Template.xpercentage.events
     'mousemove .mark': (e,t)->
@@ -27,7 +33,6 @@ $.valHooks['xpercentage'] =
             xdata.insert({name:name, value:value})
         else
             xdata.update({name:name}, {$set:{value: value}}) 
-        #xdata.update({name:name}, {$set:{value: value}})
 
 $.fn.xpercentage = ->
     this.each -> 

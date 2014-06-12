@@ -1,12 +1,15 @@
-# local collection to save the data per field name
-# issue: must concatenate the idForm and field name
-# to permit several fields with the same name
+# local collection to save the data per field name (the concatenation of idForm and name field)
+
 xdata = new Meteor.Collection null
 
 $.valHooks['xboolean'] =
     get: (el)->
         name = $(el).attr('name')
-        xdata.findOne(name:name).value
+        item = xdata.findOne(name:name)
+        if item
+            item.value
+        else
+            undefined
     set: (el, value)->   
         name = $(el).attr('name')
         if not xdata.findOne(name:name)
@@ -20,9 +23,6 @@ $.fn.xboolean = ->
         this.type = 'xboolean'
     this
 
-# we make the widget on svg element
-# so the svg must have the attr data-schema-key
-# to work with AutoForm
 Template.xboolean.rendered = ->
     $(this.find('.xboolean')).xboolean()
 
@@ -39,7 +39,7 @@ Template.xboolean.events
 Template.xboolean.helpers
     setInitial: (name, value)->
         if value == 'true' then value = true else value = false
-        el = $('div[name='+name+']')
+        el = $('div.xwidget[name='+name+']')
         el.val(value)
         null
 
@@ -55,15 +55,4 @@ Template.xboolean.helpers
         else
             prefix = ''
         prefix + '#' + this.name
-
-
-UI.registerHelper 'includeFormContext', ->
-    context = actual_context = arguments[0]
-    i = 1
-    while context and not context._af
-        context = arguments[i]
-        i += 1
-
-    actual_context.formContext = context
-    actual_context
 

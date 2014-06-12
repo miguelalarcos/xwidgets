@@ -33,9 +33,9 @@ describe "xcalendar", ->
         $('div[data-schema-key=date]').val(date) 
         Meteor.flush()      
         value = $('div[data-schema-key=date]').val()
-        
         id = items2.insert(date:value)
         value = items2.findOne(id).date
         value = moment(value)
         items2.remove id
+
         chai.assert.equal moment(date).isSame(value, 'minute'), true

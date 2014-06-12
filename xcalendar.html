@@ -1,14 +1,15 @@
 <template name='afInput_calendar'>
-    {{> xcalendar format=this.atts.format name=this.name value=this.value}}
+    {{> xcalendar name=this.name value=this.value}}
 </template>
 
 
 <template name="xcalendar">
-  <div class=container-calendar format={{this.format}} data-schema-key={{this.name}}>
-  {{setInitial this.value this.name}}
-    <input type='text' class=xcalendar value="{{getValue this.name}}">
-    <a class=xbutton name="{{this.name}}">C</a>
-    <div class="popover-calendar {{visible this.name}}" tabindex=100>
+ {{#with includeFormContext .. ../.. ../../.. ../../../.. ../../../../.. }}
+  <div class="xwidget" name="{{getName}}" format="{{this.atts.format}}" data-schema-key="{{this.name}}">
+  {{setInitial getName this.value}}
+    <input type='text' class=xcalendar value="{{getValue getName}}">
+    <a class=xbutton name="{{getName}}">C</a>
+    <div class="popover-calendar {{visible getName}}" tabindex=100>
         <span class=minus-month> - </span> <span class=plus-month> + </span>
         {{#each week}}
             <div>
@@ -21,4 +22,5 @@
         <span class=minus-minute> - </span><span> {{getMinute}} </span><span class=plus-minute> + </span>
     </div>
   </div>
+ {{/with}}
 </template>

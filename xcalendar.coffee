@@ -3,7 +3,7 @@ Session.set 'time-hour', moment().hour()
 Session.set 'time-minute', moment().minute()
 
 calendar_pop = new Meteor.Collection null
-xdata = new Meteor.Collection null
+@xdata=xdata = new Meteor.Collection null
 
 $.valHooks['xcalendar'] =
     get: (el)->
@@ -11,18 +11,18 @@ $.valHooks['xcalendar'] =
         if not value
             return null
         format = $(el).attr('format')
-        moment(value, format).utc().toDate()
+        z = moment(value, format).utc().toDate()
+        console.log 'get', z
+        z
  
     set: (el, value)->   
-        name = $(el).attr('data-schema-key')
+        console.log 'ini set', value, typeof value
+        name = $(el).attr('name')
         if _.isEqual(value, [""]) or value == '' # don't know why happens
-            #$(el).find('.xcalendar').attr('value', '')  
-            #xdata.remove(name:name)        
-            #xdata.insert(name:name, value:'')
             xdata.update({name: name}, {$set:{value: ''}})
             return
         if _.isString(value)
-            value = moment(value, "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]")
+            value = moment.utc(value, "YYYY-MM-DD[T]HH:mm:ss.SSS[Z]").local()
         else if _.isDate(value)
             value = moment(value)
         else
@@ -30,21 +30,18 @@ $.valHooks['xcalendar'] =
 
         format = $(el).attr('format')
         value = value.format(format)
-        
-        xdata.remove(name:name)        
+        console.log 'set', value
+        xdata.remove(name:name)      
         xdata.insert(name:name, value:value)
-        #xdata.update({name: name}, {$set:{value: value}})
         
 
 $.fn.xcalendar = (name)->
     this.each -> 
         this.type = 'xcalendar'
-        #calendar_pop.insert({name:name, visible:false})
     this
 
 Template.xcalendar.rendered = -> 
-    #$(this.find('.container-calendar')).xcalendar($(@find('.xbutton')).attr('name'))
-    $(this.find('.container-calendar')).xcalendar()
+    $(this.find('.xwidget')).xcalendar()
 
 Template.xcalendar.events
     'click .minus-month': (e,t)->
@@ -52,7 +49,7 @@ Template.xcalendar.events
     'click .plus-month': (e,t)->
         Session.set('xday', moment(Session.get('xday')).add('months', 1).toDate())
     'click .calendar-day': (e,t)->
-        el=t.find('.container-calendar')
+        el=t.find('.xwidget')
         date = moment($(e.target).attr('date'))
         date.hour(Session.get('time-hour')).minute(Session.get('time-minute'))
         $(el).val(date)
@@ -64,17 +61,14 @@ Template.xcalendar.events
         hour = Session.get 'time-hour'
         hour = if hour==0 then 0 else hour-1
         Session.set('time-hour', hour)
-        el=t.find('.container-calendar')
-        #date = moment($(el).val()).startOf('Day').format('YYYY-MM-DD')
-        #$(el).val(date+' '+hour)
+        el=t.find('.xwidget')
         date = moment($(el).val()).hour(hour)
         $(el).val(date)
     'click .plus-hour': (e,t)->
         hour = Session.get 'time-hour'
         hour = if hour==23 then 23 else hour+1
         Session.set('time-hour', hour)    
-        el=t.find('.container-calendar')
-        #date = moment($(el).val()).startOf('Day').format('YYYY-MM-DD')
+        el=t.find('.xwidget')
         date = moment($(el).val()).hour(hour)
         $(el).val(date)
     'click .minus-minute': (e,t)->
@@ -82,7 +76,7 @@ Template.xcalendar.events
         minute = Session.get 'time-minute'
         minute = if minute == 0 then 0 else minute-1
         Session.set('time-minute', minute)
-        el=t.find('.container-calendar')
+        el=t.find('.xwidget')
         date = moment($(el).val()).hour(hour).minute(minute)
         $(el).val(date)
     'click .plus-minute': (e,t)->
@@ -90,24 +84,30 @@ Template.xcalendar.events
         minute = Session.get 'time-minute'
         minute = if minute == 59 then 59 else minute+1
         Session.set('time-minute', minute)
-        el=t.find('.container-calendar')
+        el=t.find('.xwidget')
         date = moment($(el).val()).hour(hour).minute(minute)
         $(el).val(date)
         
 
 Template.xcalendar.helpers
+    getName: ->
+        if this.formContext
+            prefix = this.formContext._af.formId
+        else
+            prefix = ''
+        prefix + '#' + this.name
     getHour: -> Session.get 'time-hour'
     getMinute: -> Session.get 'time-minute'
     getValue: (name) ->
         item = xdata.findOne(name:name)
         if item
+            console.log 'getValue', item.value
             item.value
         else
             null
-    setInitial: (value, name)->
-        calendar_pop.insert({name:name, visible:false})
-        #xdata.insert({name:name, value:value})
-        el = $('[name='+name+']').parent()
+    setInitial: (name, value)->
+        calendar_pop.insert({name:name, visible:false})        
+        el = $('div.xwidget[name='+name+']')
         el.val(value) # set the value on the container
         null 
 
