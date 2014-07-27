@@ -30,7 +30,7 @@ Template.xautocomplete.helpers
             if query != ''
                 Meteor.call call, query, (error, result)->
                     local_items.remove({})  
-                    for item, i in result
+                    for item, i in (result or [])
                         local_items.insert({name: item.name, index: i, remote_id: item._id})
             local_items.find({})
         else
