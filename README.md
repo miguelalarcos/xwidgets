@@ -1,6 +1,8 @@
 xwidgets
 ========
 
+(I have to find time and rewrite the entinre package, because it doesn't work well with newer versions of Meteor.)
+
 A set of useful widgets for display and enter data. Plays nicely with AutoForm, but I'm thinking as well in SCADA like widgets.
 
 Important: It's in fase beta. 
